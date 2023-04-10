@@ -43,7 +43,8 @@ First, we need to have a model compiled with AWS Neuron to get started. In the [
 
 # 3.2 Deploying Models with FastAPI
 
-Once models are compiled, please save the compiled model and specify the location in the config.properties file. In this example, we have placed the traced model for a batch size of 1 here.
+Once models are compiled, please save the compiled model and specify the location in the config.properties file. In this example, we have placed the traced model for a batch size of 1 in a traced-models folder. The [fast-api](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/tree/main/fast-api) folder provides all the necessary scripts to deploy models with FastAPI. To deploy the models without any changes simply execute the [deploy.sh](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/blob/main/fast-api/deploy.sh) script and it will build a fastapi container image and run containers on specified number of cores and deploy the specified number of models per server in each FastAPI model server.
+
 
 
 
