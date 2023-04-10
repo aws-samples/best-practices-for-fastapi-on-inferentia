@@ -5,7 +5,7 @@
 Production workloads often have high throughput, low latency and cost requirements. Inefficient architectures that sub-optimally utilize accelerators could lead to unnecessarily high production costs. In this repo, we will show how to optimally utilize NeuronCores with FastAPI to maximize throughput at minimum latency. In the following sections, we will show to setup this solution on an Inf1 instance and will walkthrough how to compile models on NeuronCores, deploy models with FastAPI and monitor NeuronCores. An overview of the solution architecture is depicted in Fig. 1.
 
 <div align="center">
-<img src="./mages/Architecture.png" width="90%">
+<img src="./images/Architecture.png" width="90%">
 <br/>
 Fig. 1 - EC2 Solution Architecture
 </div>
@@ -23,11 +23,19 @@ Each Inferentia chip has 4 NeuronCores available that share the system vCPUs and
 | Inf1.6xlarge  |        4      |        16    |   24  |       48     |
 | Inf1.24xlarge |        16     |        64    |   96  |       19     |
 
-Neuron Runtime is responsible for executing models on Neuron Devices. Neuron Runtime determines which NeuronCore will execute which model and how to execute it. Configuration of the Neuron Runtime is controlled through the use of [Environment variables](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/neuron-runtime/nrt-configurable-parameters.html#nrt-configuration) at the process level. Two popular environment variables are NEURON_RT_NUM_CORES and NEURON_RT_VISIBLE_CORES.
+Neuron Runtime is responsible for executing models on Neuron Devices. Neuron Runtime determines which NeuronCore will execute which model and how to execute it. Configuration of the Neuron Runtime is controlled through the use of [Environment variables](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/neuron-runtime/nrt-configurable-parameters.html#nrt-configuration) at the process level. Two popular environment variables are NEURON_RT_NUM_CORES and NEURON_RT_VISIBLE_CORES. You can find a list of all environment variables [here](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/neuron-runtime/nrt-configurable-parameters.html#nrt-configuration).
+
+<div align="center">
+<img src="./images/Environment_variables..png" width="90%">
+<br/>
+Fig. 2 - Key Neuron Runtime Environment Variables
+</div>
+<br/>
 
 
+# 3. EC2 Solution Setup
 
-
+To setup the solution in a repeatable, reusable way we use Docker containers and provide the following config file for users to provide inputs. Before proceeding, please specify the region you are working in the .env file. The .env file will automatically figure out your ECR registry information so no need to provide it.
 
 
 
