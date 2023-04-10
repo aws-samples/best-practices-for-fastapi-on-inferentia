@@ -2,8 +2,27 @@
 
 # 1. Overview
 
-Production workloads often have high throughput, low latency and cost requirements. Inefficient architectures that sub-optimally utilize accelerators could lead to unnecessarily high production costs. In this repo, we will show how to optimally utilize NeuronCores with FastAPI to maximize throughput at minimum latency. In the following sections, we will show to setup this solution on an Inf1 instance and will walkthrough how to compile models on NeuronCores, deploy models with FastAPI and monitor NeuronCores.
+Production workloads often have high throughput, low latency and cost requirements. Inefficient architectures that sub-optimally utilize accelerators could lead to unnecessarily high production costs. In this repo, we will show how to optimally utilize NeuronCores with FastAPI to maximize throughput at minimum latency. In the following sections, we will show to setup this solution on an Inf1 instance and will walkthrough how to compile models on NeuronCores, deploy models with FastAPI and monitor NeuronCores. An overview of the solution architecture is depicted in Fig. 1.
 
+<div align="center">
+<img src="./Architecture.png" width="90%">
+<br/>
+Fig. 1 - EC2 Solution Architecture
+</div>
+<br/>
+
+# 2. AWS Inferentia NeuronCores
+
+Each Inferentia chip has 4 NeuronCores available that share the system vCPUs and memory. The table below shows a breakdown of NeuroCores available for different Inf1 instance sizes.
+
+<div align="center">
+| Instance Size | # Accelerators| # NeuronCores| vCPUs | Memory (GiB) |
+| ------------- |:-------------:| ------------:| -----:| ------------:|
+| Inf1.xlarge   |        1      |        4     |   4   |       8      |
+| Inf1.2xlarge  |        1      |        4     |   8   |       16     |
+| Inf1.6xlarge  |        4      |        16    |   24  |       48     |
+| Inf1.24xlarge |        16     |        64    |   96  |       19     |
+</div>
 
 
 
