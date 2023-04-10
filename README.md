@@ -15,14 +15,14 @@ Fig. 1 - EC2 Solution Architecture
 
 Each Inferentia chip has 4 NeuronCores available that share the system vCPUs and memory. The table below shows a breakdown of NeuroCores available for different Inf1 instance sizes.
 
-<div align="center">
+
 | Instance Size | # Accelerators| # NeuronCores| vCPUs | Memory (GiB) |
 | ------------- |:-------------:| ------------:| -----:| ------------:|
 | Inf1.xlarge   |        1      |        4     |   4   |       8      |
 | Inf1.2xlarge  |        1      |        4     |   8   |       16     |
 | Inf1.6xlarge  |        4      |        16    |   24  |       48     |
 | Inf1.24xlarge |        16     |        64    |   96  |       19     |
-</div>
+
 
 
 
