@@ -35,8 +35,15 @@ Fig. 2 - Key Neuron Runtime Environment Variables
 
 # 3. EC2 Solution Setup
 
-To setup the solution in a repeatable, reusable way we use Docker containers and provide the following config file for users to provide inputs. Before proceeding, please specify the region you are working in the .env file. The .env file will automatically figure out your ECR registry information so no need to provide it.
+To setup the solution in a repeatable, reusable way we use Docker containers and provide the [config file](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/blob/main/config.properties) for users to provide inputs. Before proceeding, please specify the region you are working in the .env file. The .env file will automatically figure out your ECR registry information so no need to provide it. This configuration file needs user defined name prefixes for Docker image and Docker containers. The build.sh script in the [fastapi](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/tree/main/fast-api) and [trace-model](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/tree/main/trace-model) folders will use this to create Docker images. 
 
+# 3.1 Compiling Models on NeuronCores
+
+First, we need to have a model compiled with AWS Neuron to get started. In the [trace-model]((https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/tree/main/trace-model)) folder, we provide all the scripts necessary to trace a [bert-base-uncased](https://huggingface.co/bert-base-uncased) model on Inferentia. This script could be used for most models available on HuggingFace. The [Dockerfile](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/blob/main/trace-model/Dockerfile) has all the dependencies to run models on AWS Neuron and runs [trace-model.py](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/blob/main/trace-model/trace-model.py) code as entrypoint. You can build this container by simply running [build.sh](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/blob/main/trace-model/build.sh) and push to ECR with [push.sh](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/blob/main/trace-model/push.sh). The push script will create a repo in ECR for you and push the container image.
+
+# 3.2 Deploying Models with FastAPI
+
+Once models are compiled, please save the compiled model and specify the location in the config.properties file. In this example, we have placed the traced model for a batch size of 1 here.
 
 
 
