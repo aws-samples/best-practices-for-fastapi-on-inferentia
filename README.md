@@ -17,11 +17,23 @@ Each Inferentia chip has 4 NeuronCores available that share the system vCPUs and
 
 
 | Instance Size | # Accelerators| # NeuronCores| vCPUs | Memory (GiB) |
-| ------------- |:-------------:| ------------:| -----:| ------------:|
+| ------------- |:-------------:|:------------:|:-----:|:------------:|
 | Inf1.xlarge   |        1      |        4     |   4   |       8      |
 | Inf1.2xlarge  |        1      |        4     |   8   |       16     |
 | Inf1.6xlarge  |        4      |        16    |   24  |       48     |
 | Inf1.24xlarge |        16     |        64    |   96  |       19     |
+
+Neuron Runtime is responsible for executing models on Neuron Devices. Neuron Runtime determines which NeuronCore will execute which model and how to execute it. Configuration of the Neuron Runtime is controlled through the use of [Environment variables](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/neuron-runtime/nrt-configurable-parameters.html#nrt-configuration) at the process level. Two popular environment variables are NEURON_RT_NUM_CORES and NEURON_RT_VISIBLE_CORES.
+
+
+
+
+
+
+
+
+
+
 
 
 
