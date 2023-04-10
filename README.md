@@ -1,4 +1,9 @@
-# aws-do-fastapi-inferentia
+## Best Practices to Optimize Inferentia Utilization with FastAPI on Amazon EC2 Inf1 Instances
+
+# 1. Overview
+
+Production workloads often have high throughput, low latency and cost requirements. Inefficient architectures that sub-optimally utilize accelerators could lead to unnecessarily high production costs. In this repo, we will show how to optimally utilize NeuronCores with FastAPI to maximize throughput at minimum latency. In the following sections, we will show to setup this solution on an Inf1 instance and will walkthrough how to compile models on NeuronCores, deploy models with FastAPI and monitor NeuronCores.
+
 
 
 
