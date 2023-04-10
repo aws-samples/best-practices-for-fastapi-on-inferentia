@@ -1,6 +1,6 @@
-## Best Practices to Optimize Inferentia Utilization with FastAPI on Amazon EC2 Inf1 Instances
+# Best Practices to Optimize Inferentia Utilization with FastAPI on Amazon EC2 Inf1 Instances
 
-# 1. Overview
+## 1. Overview
 
 Production workloads often have high throughput, low latency and cost requirements. Inefficient architectures that sub-optimally utilize accelerators could lead to unnecessarily high production costs. In this repo, we will show how to optimally utilize NeuronCores with FastAPI to maximize throughput at minimum latency. In the following sections, we will show to setup this solution on an Inf1 instance and will walkthrough how to compile models on NeuronCores, deploy models with FastAPI and monitor NeuronCores. An overview of the solution architecture is depicted in Fig. 1.
 
@@ -11,7 +11,7 @@ Fig. 1 - EC2 Solution Architecture
 </div>
 <br/>
 
-# 2. AWS Inferentia NeuronCores
+## 2. AWS Inferentia NeuronCores
 
 Each Inferentia chip has 4 NeuronCores available that share the system vCPUs and memory. The table below shows a breakdown of NeuroCores available for different Inf1 instance sizes.
 
@@ -26,119 +26,83 @@ Each Inferentia chip has 4 NeuronCores available that share the system vCPUs and
 Neuron Runtime is responsible for executing models on Neuron Devices. Neuron Runtime determines which NeuronCore will execute which model and how to execute it. Configuration of the Neuron Runtime is controlled through the use of [Environment variables](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/neuron-runtime/nrt-configurable-parameters.html#nrt-configuration) at the process level. Two popular environment variables are NEURON_RT_NUM_CORES and NEURON_RT_VISIBLE_CORES. You can find a list of all environment variables [here](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/neuron-runtime/nrt-configurable-parameters.html#nrt-configuration).
 
 <div align="center">
-<img src="./images/Environment_variables..png" width="90%">
+<img src="./images/Environment_variables.png" width="90%">
 <br/>
 Fig. 2 - Key Neuron Runtime Environment Variables
 </div>
 <br/>
 
 
-# 3. EC2 Solution Setup
+## 3. EC2 Solution Setup
 
 To setup the solution in a repeatable, reusable way we use Docker containers and provide the [config file](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/blob/main/config.properties) for users to provide inputs. Before proceeding, please specify the region you are working in the .env file. The .env file will automatically figure out your ECR registry information so no need to provide it. This configuration file needs user defined name prefixes for Docker image and Docker containers. The build.sh script in the [fastapi](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/tree/main/fast-api) and [trace-model](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/tree/main/trace-model) folders will use this to create Docker images. 
 
-# 3.1 Compiling Models on NeuronCores
+### 3.1 Compiling Models on NeuronCores
 
 First, we need to have a model compiled with AWS Neuron to get started. In the [trace-model]((https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/tree/main/trace-model)) folder, we provide all the scripts necessary to trace a [bert-base-uncased](https://huggingface.co/bert-base-uncased) model on Inferentia. This script could be used for most models available on HuggingFace. The [Dockerfile](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/blob/main/trace-model/Dockerfile) has all the dependencies to run models on AWS Neuron and runs [trace-model.py](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/blob/main/trace-model/trace-model.py) code as entrypoint. You can build this container by simply running [build.sh](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/blob/main/trace-model/build.sh) and push to ECR with [push.sh](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/blob/main/trace-model/push.sh). The push script will create a repo in ECR for you and push the container image.
 
-# 3.2 Deploying Models with FastAPI
+```console
+cd ./trace-model
+./build.sh
+./run.sh
+```
+
+### 3.2 Deploying Models with FastAPI
 
 Once models are compiled, please save the compiled model and specify the location in the config.properties file. In this example, we have placed the traced model for a batch size of 1 in a traced-models folder. The [fast-api](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/tree/main/fast-api) folder provides all the necessary scripts to deploy models with FastAPI. To deploy the models without any changes simply execute the [deploy.sh](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/blob/main/fast-api/deploy.sh) script and it will build a fastapi container image and run containers on specified number of cores and deploy the specified number of models per server in each FastAPI model server.
 
-
-
-
-
-
-
-
-
-
-## Getting started
-
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://gitlab.aws.dev/smml/aws-do-framework/aws-do-fastapi-inferentia.git
-git branch -M main
-git push -uf origin main
+```console
+cd ./fast-api
+./deploy.sh
 ```
 
-## Integrate with your tools
+### 3.3 Calling APIs
 
-- [ ] [Set up project integrations](https://gitlab.aws.dev/smml/aws-do-framework/aws-do-fastapi-inferentia/-/settings/integrations)
+Once the containers are deployed, we use the [run_apis.py](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/blob/main/run_apis.py) script that calls the APIs in parallel threads. The code is set up to call 6 models deployed, 1 on each NeuronCore but can be easily changed to a different setting.
 
-## Collaborate with your team
+```console
+python run_apis.py
+```
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+### 3.4 Monitoring NeuronCores
 
-## Test and Deploy
+Once the model servers are deployed, to monitor NeuronCore utilization, we may use neuron-top to observe in real time the utilization percentage of each NeuronCore. [neuron-top](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/tools/index.html?highlight=neuron-top&neuron-top-user-guide.html=#neuron-top-user-guide) is a CLI tool in the Neuron SDK to provide information such as NeuronCore, vCPU and memory utilization. In a separate terminal, enter the following command:
 
-Use the built-in continuous integration in GitLab.
+```console
+neuron-top
+```
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+And your output should be similar to the following figure. In this scenario, we have specified to use 6 NeuronCores and 2 models per server on an Inf1.6xlarge instance. The screenshot below shows that 2 models of size 177.2MB each are loaded on 6 NeuronCores. With a total of 12 models loaded, you can see the Device Memory Used is 2.1 GB. Use the arrow keys to move between the NeuronCores on different devices.
 
-***
+<div align="center">
+<img src="./images/Loading_Models.png" width="90%">
+<br/>
+Fig. 4 - Loading Models
+</div>
+<br/>
 
-# Editing this README
+Once you run [run_apis.py](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/blob/main/run_apis.py) script, you can see % utilization of each of the 6 NeuronCores as below. You can also see the System vCPU usage and Runtime vCPU usage. 
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+<div align="center">
+<img src="./images/Benchmark.png" width="90%">
+<br/>
+Fig. 4 - NeuronCore Utilization when calling APIs
+</div>
+<br/>
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+### 3.4 Clean Up
 
-## Name
-Choose a self-explaining name for your project.
+To clean up all the Docker containers created in this work, we provide a [cleanup.sh](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/blob/main/fast-api/cleanup.sh) script which just removes all running and stopped containers. This script will remove all containers so don’t use it only if you wish to keep some containers running.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+```console
+cd ./fast-api
+./cleanup.sh
+```
+## Security
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information. Prior to any production deployment, customers should work with their local security teams to evaluate any additional controls
 
 ## License
-For open source projects, say how it is licensed.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+This library is licensed under the MIT-0 License. See the LICENSE file.
+
