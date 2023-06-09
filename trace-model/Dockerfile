@@ -26,5 +26,5 @@ RUN pip install transformers
 COPY . /trace-model
 WORKDIR /trace-model
 
-ENTRYPOINT ["python3", "trace-model.py"]
+ENTRYPOINT ["python3", "/trace-model/trace-model.py"]
 
