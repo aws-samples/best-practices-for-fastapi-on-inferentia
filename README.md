@@ -146,7 +146,7 @@ loaded on 6 NeuronCores. With a total of 12 models loaded, you can see the Devic
 keys to move between the NeuronCores on different devices.
 
 <div align="center">
-<img src="./images/Loading_Models.png" width="90%">
+<img src="./images/Loading_Models.png" width="90%" alt="Loading Models">
 <br/>
 Fig. 4 - Loading Models
 </div>
@@ -158,7 +158,7 @@ you can see % utilization of each of the 6 NeuronCores as below. You can also se
 usage.
 
 <div align="center">
-<img src="./images/Benchmark.png" width="90%">
+<img src="./images/Benchmark.png" width="90%" alt="NeuronCore utilization when calling APIs">
 <br/>
 Fig. 4 - NeuronCore Utilization when calling APIs
 </div>
