@@ -125,7 +125,7 @@ that calls the APIs in parallel threads. The code is set up to call 6 models dep
 easily changed to a different setting.
 
 ```console
-python run_apis.py
+python3 run_apis.py
 ```
 
 ### 3.4 Monitoring NeuronCores
