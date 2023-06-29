@@ -33,8 +33,12 @@ Similarly, this is the breakdown of Inf2 instance types with the latest NeuronCo
 | Inf2.24xlarge |       6        |        12        |  96   |     192      |
 | Inf2.48xlarge |       12       |        24        |  192  |     384      |
 
-
-Neuron Runtime is responsible for executing models on Neuron Devices. Neuron Runtime determines which NeuronCore will execute which model and how to execute it. Configuration of the Neuron Runtime is controlled through the use of [Environment variables](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/neuron-runtime/nrt-configurable-parameters.html#nrt-configuration) at the process level. Two popular environment variables are NEURON_RT_NUM_CORES and NEURON_RT_VISIBLE_CORES. You can find a list of all environment variables [here](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/neuron-runtime/nrt-configurable-parameters.html#nrt-configuration).
+Neuron Runtime is responsible for executing models on Neuron Devices. Neuron Runtime determines which NeuronCore will
+execute which model and how to execute it. Configuration of the Neuron Runtime is controlled through the use
+of [Environment variables](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/neuron-runtime/nrt-configurable-parameters.html#nrt-configuration)
+at the process level. Two popular environment variables are NEURON_RT_NUM_CORES and NEURON_RT_VISIBLE_CORES. You can
+find a list of all environment
+variables [here](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/neuron-runtime/nrt-configurable-parameters.html#nrt-configuration).
 
 <div align="center">
 <img src="./images/Environment_variables.png" width="90%">
