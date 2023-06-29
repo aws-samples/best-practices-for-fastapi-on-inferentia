@@ -66,7 +66,7 @@ the [fastapi](https://github.com/aws-samples/best-practices-for-fastapi-on-infer
 and [trace-model](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/tree/main/trace-model) folders
 will use this to create Docker images.
 
-Note: There are two .env files with the same variables. They're in the `trace-model` and `fast-api` directories. They're 
+Note: There are two `.env` files with the same variables. They're in the `trace-model` and `fast-api` directories. They're 
 separate so that tracing and deployment can be two separate processes and can be deployed in two separate regions if need be. 
 
 ### 3.1 Compiling Models on NeuronCores
@@ -84,8 +84,19 @@ and push to ECR
 with [push.sh](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/blob/main/trace-model/push.sh).
 The push script will create a repo in ECR for you and push the container image.
 
+To make things easier, we're going to rely on
+pre-built [Neuron runtime Deep Learning Docker images](https://github.com/aws/deep-learning-containers/blob/master/available_images.md)
+provided by AWS.
+
+To pull these images, we need temporary credentials.
+The [fetch-credential.sh](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/blob/main/trace-model/fetch-credentials.sh)
+contains the command to pull these credentials
+
+This is the order of commands to start compilation and then to run the images as containers.
+
 ```console
 cd ./trace-model
+./fetch-credential.sh
 ./build.sh
 ./run.sh
 ```
