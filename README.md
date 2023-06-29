@@ -40,12 +40,12 @@ Similarly, this is the breakdown of Inf2 instance types with the latest NeuronCo
 Neuron Runtime is responsible for executing models on Neuron Devices. Neuron Runtime determines which NeuronCore will
 execute which model and how to execute it. Configuration of the Neuron Runtime is controlled through the use
 of [Environment variables](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/neuron-runtime/nrt-configurable-parameters.html#nrt-configuration)
-at the process level. Two popular environment variables are NEURON_RT_NUM_CORES and NEURON_RT_VISIBLE_CORES. You can
+at the process level. Two popular environment variables are `NEURON_RT_NUM_CORES` and `NEURON_RT_VISIBLE_CORES`. You can
 find a list of all environment
 variables [here](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/neuron-runtime/nrt-configurable-parameters.html#nrt-configuration).
 
 <div align="center">
-<img src="./images/Environment_variables.png" width="90%">
+<img src="./images/Environment_variables.png" width="90%" alt="Environment Variables">
 <br/>
 Fig. 2 - Key Neuron Runtime Environment Variables
 </div>
@@ -55,12 +55,16 @@ Fig. 2 - Key Neuron Runtime Environment Variables
 
 To setup the solution in a repeatable, reusable way we use Docker containers and provide
 the [config file](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/blob/main/config.properties)
-for users to provide inputs. Before proceeding, please specify the region you are working in the .env file. The .env
+for users to provide inputs. 
+
+Before proceeding, please specify the region you are working in the `.env` file. The `.env`
 file will automatically figure out your ECR registry information so no need to provide it. This configuration file needs
 user defined name prefixes for Docker image and Docker containers. The build.sh script in
 the [fastapi](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/tree/main/fast-api)
 and [trace-model](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/tree/main/trace-model) folders
 will use this to create Docker images.
+
+
 
 ### 3.1 Compiling Models on NeuronCores
 
