@@ -103,13 +103,13 @@ cd ./trace-model
 
 ### 3.2 Deploying Models with FastAPI
 
-Once models are compiled, please save the compiled model and specify the location in the config.properties file. In this
-example, we have placed the traced model for a batch size of 1 in a traced-models folder.
+Once models are compiled, the TorchScript model file (.pt) will land under the `trace-models` folder. For this example,
+it is hard-coded as `compiled-bert-bs-1.pt` in `config.properties` file.
 The [fast-api](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/tree/main/fast-api) folder
 provides all the necessary scripts to deploy models with FastAPI. To deploy the models without any changes simply
 execute
 the [deploy.sh](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/blob/main/fast-api/deploy.sh)
-script and it will build a fastapi container image and run containers on specified number of cores and deploy the
+script. This will build a fastapi container image and run containers on specified number of cores and deploy the
 specified number of models per server in each FastAPI model server.
 
 ```console
