@@ -17,7 +17,7 @@ global default_question, default_context
 chip_type = os.environ.get("CHIP_TYPE", "inf1")
 if chip_type == "inf1":
     import torch_neuron
-elif chip_type == "inf2"
+elif chip_type == "inf2":
     import torch_neuronx
 
 logger = logging.getLogger()
