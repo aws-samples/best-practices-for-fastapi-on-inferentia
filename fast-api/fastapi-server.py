@@ -3,7 +3,7 @@ from fastapi import FastAPI,logger,responses
 from configparser import ConfigParser
 import torch, os, logging
 import importlib
-import torch_neuron
+import os
 
 
 global device
@@ -12,6 +12,13 @@ global models
 global tokenizers
 global logger
 global default_question, default_context
+
+
+chip_type = os.environ.get("CHIP_TYPE", "inf1")
+if chip_type == "inf1":
+    import torch_neuron
+elif chip_type == "inf2"
+    import torch_neuronx
 
 logger = logging.getLogger()
 
@@ -87,10 +94,6 @@ async def infer(model_id, seq_0: Optional[str] = default_question, seq_1: Option
         if not quiet:
             logger.warning(answer_text)
     return responses.JSONResponse(status_code=status, content={"detail": answer_text})
-
-
-
-
 
 
 tokenizers={}
