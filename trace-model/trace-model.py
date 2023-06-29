@@ -1,7 +1,15 @@
 import torch
 import os
-import torch_neuron
 import importlib
+
+chip_type = os.environ.get("CHIP_TYPE", "inf1")
+
+print(f"Selecting chip type: {chip_type}")
+
+if chip_type  == "inf1":
+    import torch_neuron as neuron_lib
+elif chip_type == "inf2":
+    import torch_neuronx as neuron_lib
 
 batch_size = 1
 
@@ -51,10 +59,7 @@ example_inputs = (
 pipeline_cores = 1
 
 
-model_traced = torch.neuron.trace(model, 
-                                  example_inputs, 
-                                  verbose=1, 
-                                  compiler_workdir='./bert-bs-'+str(batch_size))
+model_traced = neuron_lib.trace(model, example_inputs, compiler_workdir=f'{chip_type}-compiler-workdir')
 
 
 answer_logits = model_traced(*example_inputs)
