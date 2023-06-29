@@ -47,7 +47,6 @@ default_context = """In the childrens story about the little engine a small loco
     about how an optimistic attitude empowers everyone to achieve more. In the story the little engine says: 'I think I can' as it is 
     pulling the heavy load all the way to the top of the mountain. On the way down it says: I thought I could."""
 
-
 env_var = os.getenv('NEURON_RT_VISIBLE_CORES')
 neuron_core=int(env_var[0])
 
@@ -59,7 +58,7 @@ app = FastAPI()
 async def read_root():
     return {"Status": "Healthy"}
 
-prediction_api_name = 'predictions_neuron_core_'+str(neuron_core)
+prediction_api_name = f'predictions_neuron_core_{neuron_core}'
 postprocess = True
 quiet = False
 
@@ -70,14 +69,17 @@ async def infer(model_id, seq_0: Optional[str] = default_question, seq_1: Option
     context=seq_1
     status=200
     if model_id in models.keys():
+
         if not quiet:
             logger.warning(f"\nQuestion: {question}\n")
+
         tokenizer=tokenizers[model_id]
         encoded_input = tokenizer.encode_plus(question, context, return_tensors='pt', max_length=128, padding='max_length', truncation=True)
         model=models[model_id]
         model_input = (encoded_input['input_ids'],  encoded_input['attention_mask'])
         output=model(*model_input) # This is specific to Inferentia
         answer_text = str(output[0])
+
         if postprocess:
             answer_start = torch.argmax(output[0])
             answer_end = torch.argmax(output[1])+1
@@ -100,9 +102,10 @@ tokenizers={}
 models={}
 # LOAD Models
 print('Num of models to be loaded = '+str(num_models_per_server))
+
 for i in range(num_models_per_server):
-    model_id = 'model_' + str(i)
+    model_id = f'model_{i}'
     # Load the compiled models
-    print('Loading Model '+str(i)+'....')
-    models[model_id] = torch.jit.load('/app/server/traced-models/'+compiled_model)
+    print(f'Loading Model {i} ....')
+    models[model_id] = torch.jit.load(f'/app/server/traced-models/{compiled_model}')
     tokenizers[model_id]=tokenizer_class.from_pretrained(model_name)
