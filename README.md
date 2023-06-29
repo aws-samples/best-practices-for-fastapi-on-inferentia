@@ -13,15 +13,26 @@ Fig. 1 - EC2 Solution Architecture
 
 ## 2. AWS Inferentia NeuronCores
 
-Each Inferentia chip has 4 NeuronCores available that share the system vCPUs and memory. The table below shows a breakdown of NeuroCores available for different Inf1 instance sizes.
+Each Inferentia chip has 4 NeuronCores available that share the system vCPUs and memory. T
 
+he table below shows a breakdown of NeuroCore-v1 available for different Inf1 instance sizes.
 
-| Instance Size | # Accelerators| # NeuronCores| vCPUs | Memory (GiB) |
-| ------------- |:-------------:|:------------:|:-----:|:------------:|
-| Inf1.xlarge   |        1      |        4     |   4   |       8      |
-| Inf1.2xlarge  |        1      |        4     |   8   |       16     |
-| Inf1.6xlarge  |        4      |        16    |   24  |       48     |
-| Inf1.24xlarge |        16     |        64    |   96  |       19     |
+| Instance Size | # Accelerators| # NeuronCores-v1 | vCPUs | Memory (GiB) |
+| ------------- |:-------------:|:----------------:|:-----:|:------------:|
+| Inf1.xlarge   |        1      |        4         |   4   |       8      |
+| Inf1.2xlarge  |        1      |        4         |   8   |       16     |
+| Inf1.6xlarge  |        4      |        16        |   24  |       48     |
+| Inf1.24xlarge |        16     |        64        |   96  |       19     |
+
+Similarly, this is the breakdown of Inf2 instance types with the latest NeuronCore-v2
+
+| Instance Size | # Accelerators | # NeuronCores-v2 | vCPUs | Memory (GiB) |
+|---------------|:--------------:|:----------------:|:-----:|:------------:|
+| Inf2.xlarge   |       1        |        2         |   4   |      32      |
+| Inf2.8xlarge  |       1        |        2         |  32   |      32      |
+| Inf2.24xlarge |       6        |        12        |  96   |     192      |
+| Inf2.48xlarge |       12       |        24        |  192  |     384      |
+
 
 Neuron Runtime is responsible for executing models on Neuron Devices. Neuron Runtime determines which NeuronCore will execute which model and how to execute it. Configuration of the Neuron Runtime is controlled through the use of [Environment variables](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/neuron-runtime/nrt-configurable-parameters.html#nrt-configuration) at the process level. Two popular environment variables are NEURON_RT_NUM_CORES and NEURON_RT_VISIBLE_CORES. You can find a list of all environment variables [here](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/neuron-runtime/nrt-configurable-parameters.html#nrt-configuration).
 
