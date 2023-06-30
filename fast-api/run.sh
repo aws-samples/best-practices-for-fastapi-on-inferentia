@@ -2,7 +2,6 @@
 
 source docker.properties
 
-
 num_models=$(($num_cores * $num_models_per_server))
 
 
@@ -20,5 +19,3 @@ for i in $(seq 1 $num_cores); do
 	    --env CHIP_TYPE=${CHIP_TYPE} \
 	    -p ${port_num}:8080 --device=/dev/neuron${device_num} ${registry}/${docker_image_name}
 done
-
-
