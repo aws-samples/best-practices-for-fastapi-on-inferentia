@@ -11,10 +11,12 @@ with FastAPI and monitor NeuronCores. An overview of the solution architecture i
 <div align="center">
 <img src="./images/fastapi-inf2.png" width="90%">
 <br/>
-Fig. 1 - Soluton Architecture diagram using Amazon EC2 Inf2 instance type 
+  <br/>
+<b>Fig. 1 - Solution Architecture diagram using Amazon EC2 Inf2 instance type</b>
 <img src="./images/fastapi-inf1.png" width="100%">
   <br/>
-Fig. 2 - Soluton Architecture diagram using Amazon EC2 Inf1 instance type 
+  <br/>
+<b>Fig. 2 - Solution Architecture diagram using Amazon EC2 Inf2 instance type</b>
 </div>
 <br/>
 
