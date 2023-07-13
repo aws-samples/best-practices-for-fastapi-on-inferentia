@@ -68,7 +68,7 @@ for users to provide inputs.
 
 Once you have provisioned an appropriate EC2 instance (with the proper IAM role to get access to ECR) clone this repository. 
 
-Start by specifying the instance type and the region you are working in the `.env` file. The `.env`
+Start by specifying the `CHIP_TYPE` variable (default "inf2") and the `AWS_DEFAULT_REGION` (default "us-east-2") you are working in the `.env` file. The `.env`
 file will automatically figure out your ECR registry information so no need to provide it. This configuration file needs
 user defined name prefixes for Docker image and Docker containers. The `build.sh` script in
 the [fastapi](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/tree/main/fast-api)
