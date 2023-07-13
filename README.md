@@ -1,4 +1,4 @@
-# Best Practices to Optimize Inferentia Utilization with FastAPI on Amazon EC2 Inf1 Instances
+# Best Practices to Optimize Inferentia Utilization with FastAPI on Amazon EC2 Inf2 and Inf1 Instances
 
 ## 1. Overview
 
@@ -9,9 +9,18 @@ show to setup this solution on an Inf1 instance and will walkthrough how to comp
 with FastAPI and monitor NeuronCores. An overview of the solution architecture is depicted in Fig. 1.
 
 <div align="center">
-<img src="./images/Architecture.png" width="90%">
+<img src="./images/fastapi-inf2.png" width="90%">
+
+  <br/>
+<b>Fig. 1 - Solution Architecture diagram using Amazon EC2 Inf2 instance type</b>
 <br/>
-Fig. 1 - EC2 Solution Architecture
+<br/>
+<img src="./images/fastapi-inf1.png" width="100%">
+  <br/>
+  
+<b>Fig. 2 - Solution Architecture diagram using Amazon EC2 Inf1 instance type</b>
+<br/>
+<br/>
 </div>
 <br/>
 
@@ -47,7 +56,7 @@ variables [here](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/neuron-
 <div align="center">
 <img src="./images/Environment_variables.png" width="90%" alt="Environment Variables">
 <br/>
-Fig. 2 - Key Neuron Runtime Environment Variables
+<b>Fig. 3 - Key Neuron Runtime Environment Variables</b>
 </div>
 <br/>
 
@@ -55,16 +64,16 @@ Fig. 2 - Key Neuron Runtime Environment Variables
 
 To setup the solution in a repeatable, reusable way we use Docker containers and provide
 the [config file](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/blob/main/config.properties)
-for users to provide inputs. 
-
-Once you have provisioned an appropriate EC2 instance (with the proper IAM role to get access to ECR) clone this repository. 
-
-Start by specifying the instance type and the region you are working in the `.env` file. The `.env`
-file will automatically figure out your ECR registry information so no need to provide it. This configuration file needs
+for users to provide inputs. This configuration file needs
 user defined name prefixes for Docker image and Docker containers. The `build.sh` script in
 the [fastapi](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/tree/main/fast-api)
 and [trace-model](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/tree/main/trace-model) folders
 will use this to create Docker images.
+
+Once you have provisioned an appropriate EC2 instance (with the proper IAM role to get access to ECR) clone this repository. 
+
+Start by specifying the `CHIP_TYPE` variable (default "inf2") and the `AWS_DEFAULT_REGION` (default "us-east-2") you are working in the `.env` file. The `.env`
+file will automatically figure out your ECR registry information so no need to provide it. 
 
 Note: There are two `.env` files with the same variables. They're in the `trace-model` and `fast-api` directories. They're 
 separate so that tracing and deployment can be two separate processes and can be deployed in two separate regions if need be. 
@@ -140,27 +149,45 @@ terminal, enter the following command:
 neuron-top
 ```
 
-And your output should be similar to the following figure. In this scenario, we have specified to use 6 NeuronCores and
-2 models per server on an Inf1.6xlarge instance. The screenshot below shows that 2 models of size 177.2MB each are
-loaded on 6 NeuronCores. With a total of 12 models loaded, you can see the Device Memory Used is 2.1 GB. Use the arrow
+And your output should be similar to the following figure. In this scenario, we have specified to use 2 NeuronCores and
+2 models per server on an Inf2.xlarge instance. The screenshot below shows that 2 models of size 675.3MB each are
+loaded on 2 NeuronCores. With a total of 4 models loaded, you can see the Device Memory Used is 1.3 GB. Use the arrow
 keys to move between the NeuronCores on different devices.
+
+<div align="center">
+<img src="./images/inf2-model-mem.png" width="90%" alt="Loading Models on Inf2">
+<br/>
+Fig. 4 - Loading Models on Amazon EC2 Inf2 instance type
+</div>
+<br/>
+
+Similarly this screenshot shows Inf1 instance with 6 NeuronCores and 2 models per server. Device memory used 2.1GB.
 
 <div align="center">
 <img src="./images/Loading_Models.png" width="90%" alt="Loading Models">
 <br/>
-Fig. 4 - Loading Models
+Fig. 5 - Loading Models on Amazon EC2 Inf1 instance type
 </div>
 <br/>
 
 Once you
 run [run_apis.py](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/blob/main/run_apis.py) script,
-you can see % utilization of each of the 6 NeuronCores as below. You can also see the System vCPU usage and Runtime vCPU
+you can see % utilization of each of the 2 NeuronCores as below. You can also see the System vCPU usage and Runtime vCPU
 usage.
 
 <div align="center">
-<img src="./images/Benchmark.png" width="90%" alt="NeuronCore utilization when calling APIs">
+<img src="./images/inf2-model-core-util.png" width="90%" alt="NeuronCore utilization on Inf2 when calling APIs">
 <br/>
-Fig. 4 - NeuronCore Utilization when calling APIs
+Fig. 6 - NeuronCore Utilization when calling APIs on Amazon EC2 Inf2 instance type
+</div>
+<br/>
+
+The next screenshot shows the utilization on an Inf1 instance type with 6 NeuronCores.
+
+<div align="center">
+<img src="./images/Benchmark.png" width="90%" alt="NeuronCore utilization on Inf1 when calling APIs">
+<br/>
+Fig. 7 - NeuronCore Utilization when calling APIs on Amazon EC2 Inf1 instance type
 </div>
 <br/>
 
