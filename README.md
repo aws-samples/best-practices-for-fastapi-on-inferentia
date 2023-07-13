@@ -9,8 +9,9 @@ show to setup this solution on an Inf1 instance and will walkthrough how to comp
 with FastAPI and monitor NeuronCores. An overview of the solution architecture is depicted in Fig. 1.
 
 <div align="center">
-<img src="./images/Architecture.png" width="90%">
+<img src="./images/fastapi-inf2.png" width="90%">
 <br/>
+<img src="./images/fastapi-inf1.png" width="90%">
 Fig. 1 - EC2 Solution Architecture
 </div>
 <br/>
