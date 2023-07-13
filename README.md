@@ -10,13 +10,16 @@ with FastAPI and monitor NeuronCores. An overview of the solution architecture i
 
 <div align="center">
 <img src="./images/fastapi-inf2.png" width="90%">
-<br/>
+
   <br/>
 <b>Fig. 1 - Solution Architecture diagram using Amazon EC2 Inf2 instance type</b>
+<br/>
 <img src="./images/fastapi-inf1.png" width="100%">
+  
   <br/>
-  <br/>
+  
 <b>Fig. 2 - Solution Architecture diagram using Amazon EC2 Inf2 instance type</b>
+<br/>
 </div>
 <br/>
 
