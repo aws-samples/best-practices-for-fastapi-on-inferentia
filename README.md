@@ -56,7 +56,7 @@ variables [here](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/neuron-
 <div align="center">
 <img src="./images/Environment_variables.png" width="90%" alt="Environment Variables">
 <br/>
-Fig. 2 - Key Neuron Runtime Environment Variables
+<b>Fig. 3 - Key Neuron Runtime Environment Variables</b>
 </div>
 <br/>
 
@@ -155,21 +155,37 @@ loaded on 6 NeuronCores. With a total of 12 models loaded, you can see the Devic
 keys to move between the NeuronCores on different devices.
 
 <div align="center">
+<img src="./images/inf2-model-mem.png" width="90%" alt="Loading Models on Inf2">
+<br/>
+Fig. 4 - Loading Models on Amazon EC2 Inf2 instance type
+</div>
+<br/>
+
+
+<div align="center">
 <img src="./images/Loading_Models.png" width="90%" alt="Loading Models">
 <br/>
-Fig. 4 - Loading Models
+Fig. 5 - Loading Models on Amazon EC2 Inf1 instance type
 </div>
 <br/>
 
 Once you
 run [run_apis.py](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/blob/main/run_apis.py) script,
-you can see % utilization of each of the 6 NeuronCores as below. You can also see the System vCPU usage and Runtime vCPU
+you can see % utilization of each of the 2 NeuronCores as below. You can also see the System vCPU usage and Runtime vCPU
 usage.
 
 <div align="center">
-<img src="./images/Benchmark.png" width="90%" alt="NeuronCore utilization when calling APIs">
+<img src="./images/inf2-model-core-util.png" width="90%" alt="NeuronCore utilization on Inf2 when calling APIs">
 <br/>
-Fig. 4 - NeuronCore Utilization when calling APIs
+Fig. 6 - NeuronCore Utilization when calling APIs on Amazon EC2 Inf2 instance type
+</div>
+<br/>
+
+
+<div align="center">
+<img src="./images/Benchmark.png" width="90%" alt="NeuronCore utilization on Inf1 when calling APIs">
+<br/>
+Fig. 7 - NeuronCore Utilization when calling APIs on Amazon EC2 Inf1 instance type
 </div>
 <br/>
 
