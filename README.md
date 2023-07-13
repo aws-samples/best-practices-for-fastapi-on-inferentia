@@ -64,16 +64,16 @@ Fig. 2 - Key Neuron Runtime Environment Variables
 
 To setup the solution in a repeatable, reusable way we use Docker containers and provide
 the [config file](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/blob/main/config.properties)
-for users to provide inputs. 
-
-Once you have provisioned an appropriate EC2 instance (with the proper IAM role to get access to ECR) clone this repository. 
-
-Start by specifying the `CHIP_TYPE` variable (default "inf2") and the `AWS_DEFAULT_REGION` (default "us-east-2") you are working in the `.env` file. The `.env`
-file will automatically figure out your ECR registry information so no need to provide it. This configuration file needs
+for users to provide inputs. This configuration file needs
 user defined name prefixes for Docker image and Docker containers. The `build.sh` script in
 the [fastapi](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/tree/main/fast-api)
 and [trace-model](https://github.com/aws-samples/best-practices-for-fastapi-on-inferentia/tree/main/trace-model) folders
 will use this to create Docker images.
+
+Once you have provisioned an appropriate EC2 instance (with the proper IAM role to get access to ECR) clone this repository. 
+
+Start by specifying the `CHIP_TYPE` variable (default "inf2") and the `AWS_DEFAULT_REGION` (default "us-east-2") you are working in the `.env` file. The `.env`
+file will automatically figure out your ECR registry information so no need to provide it. 
 
 Note: There are two `.env` files with the same variables. They're in the `trace-model` and `fast-api` directories. They're 
 separate so that tracing and deployment can be two separate processes and can be deployed in two separate regions if need be. 
