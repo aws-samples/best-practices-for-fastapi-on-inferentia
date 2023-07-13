@@ -151,7 +151,7 @@ neuron-top
 
 And your output should be similar to the following figure. In this scenario, we have specified to use 2 NeuronCores and
 2 models per server on an Inf2.xlarge instance. The screenshot below shows that 2 models of size 675.3MB each are
-loaded on 2 NeuronCores. With a total of 2 models loaded, you can see the Device Memory Used is 1.3 GB. Use the arrow
+loaded on 2 NeuronCores. With a total of 4 models loaded, you can see the Device Memory Used is 1.3 GB. Use the arrow
 keys to move between the NeuronCores on different devices.
 
 <div align="center">
