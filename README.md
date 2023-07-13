@@ -1,4 +1,4 @@
-# Best Practices to Optimize Inferentia Utilization with FastAPI on Amazon EC2 Inf1 Instances
+# Best Practices to Optimize Inferentia Utilization with FastAPI on Amazon EC2 Inf2 and Inf1 Instances
 
 ## 1. Overview
 
@@ -14,11 +14,12 @@ with FastAPI and monitor NeuronCores. An overview of the solution architecture i
   <br/>
 <b>Fig. 1 - Solution Architecture diagram using Amazon EC2 Inf2 instance type</b>
 <br/>
+<br/>
 <img src="./images/fastapi-inf1.png" width="100%">
-  
   <br/>
   
-<b>Fig. 2 - Solution Architecture diagram using Amazon EC2 Inf2 instance type</b>
+<b>Fig. 2 - Solution Architecture diagram using Amazon EC2 Inf1 instance type</b>
+<br/>
 <br/>
 </div>
 <br/>
